@@ -25,6 +25,7 @@ services:
       dockerfile: php-cli.docker
     volumes:
       - ./:/var/www
+      - composer:/root/.composer/cache
     links:
       - db
     tty: true
@@ -42,3 +43,4 @@ services:
       - "33061:3306"
 volumes:
   db:
+  composer:
