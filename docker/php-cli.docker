@@ -1,0 +1,11 @@
+FROM php:7.4-cli
+
+RUN apt-get update && apt-get install -y libmcrypt-dev \
+    && docker-php-ext-install pdo_mysql bcmath
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin --filename=composer --quiet
+ENV COMPOSER_ALLOW_SUPERUSER 1
+
+COPY ./php/conf.d /usr/local/etc/php/conf.d
+
+WORKDIR /var/www
