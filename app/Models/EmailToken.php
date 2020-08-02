@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class EmailToken extends Model
 {
     public $timestamps = false;
+
     protected $table = 'email_tokens';
+
     protected $dates = ['expires'];
 
     private const MAX_ATTEMPTS = 3;

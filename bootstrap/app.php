@@ -1,7 +1,9 @@
 <?php
 
+use App\Repositories\DbEmail;
 use App\Repositories\DbToken;
-use App\Repositories\Token;
+use App\Repositories\EmailRepository;
+use App\Repositories\TokenRepository;
 use App\Services\DummySender;
 use App\Services\Sender;
 use App\Services\Tokenizer;
@@ -54,7 +56,8 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
-$app->singleton(Token::class, DbToken::class);
+$app->singleton(TokenRepository::class, DbToken::class);
+$app->singleton(EmailRepository::class, DbEmail::class);
 $app->singleton(Sender::class, DummySender::class);
 
 $app->singleton(Tokenizer::class, function ($app) {

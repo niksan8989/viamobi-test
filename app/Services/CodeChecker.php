@@ -2,16 +2,23 @@
 
 namespace App\Services;
 
-use App\Repositories\Token;
+use App\Models\Email;
+use App\Repositories\EmailRepository;
+use App\Repositories\TokenRepository;
 use Webmozart\Assert\Assert;
 
 class CodeChecker
 {
-    private Token $tokenRepository;
+    private TokenRepository $tokenRepository;
+    /**
+     * @var EmailRepository
+     */
+    private EmailRepository $emailRepository;
 
-    public function __construct(Token $repository)
+    public function __construct(TokenRepository $tokenRepository, EmailRepository $emailRepository)
     {
-        $this->tokenRepository = $repository;
+        $this->tokenRepository = $tokenRepository;
+        $this->emailRepository = $emailRepository;
     }
 
     public function check($email, $code): void
@@ -24,10 +31,9 @@ class CodeChecker
         }
 
         $token->attempt();
-
         $token->validate($code, new \DateTimeImmutable());
+        $token->delete();
 
-        // Todo::удалить токен и сбросить все счетчики
-        $this->tokenRepository->delete($token->id);
+        Email::create(['email' => $email]);
     }
 }

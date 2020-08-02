@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Repositories\EmailRepository;
 use Closure;
 use Illuminate\Cache\RateLimiter;
 use Illuminate\Contracts\Cache\Repository as Cache;
@@ -10,9 +11,22 @@ use RuntimeException;
 
 class EmailThrottle extends ThrottleRequests
 {
+    /**
+     * @var EmailRepository
+     */
+    private EmailRepository $emailRepository;
+
+    public function __construct(EmailRepository $emailRepository, RateLimiter $limiter)
+    {
+        $this->emailRepository = $emailRepository;
+        parent::__construct($limiter);
+    }
+
     public function handle($request, Closure $next, $maxAttempts = 60, $decayMinutes = 1, $prefix = '')
     {
-        if ($email = $request->get('email')) {
+        $email = $request->get('email');
+
+        if ($email && !$this->emailRepository->findByEmail($email)) {
             $key = $prefix . $this->resolveRequestSignatureByEmail($email);
 
             $maxAttempts = $this->resolveMaxAttempts($request, $maxAttempts);

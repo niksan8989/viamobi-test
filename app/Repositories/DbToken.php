@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\EmailToken;
 
-class DbToken extends Base implements Token
+class DbToken extends Base implements TokenRepository
 {
     public function getModelClass(): string
     {

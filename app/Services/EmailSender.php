@@ -2,24 +2,24 @@
 
 namespace App\Services;
 
-use App\Repositories\Token;
+use App\Repositories\TokenRepository;
 use DateTimeImmutable;
 use Webmozart\Assert\Assert;
 
 class EmailSender
 {
     private Tokenizer $tokenizer;
-    private Token $repository;
+    private TokenRepository $tokenRepository;
     private Sender $sender;
 
     public function __construct(
         Tokenizer $tokenizer,
-        Token $repository,
+        TokenRepository $tokenRepository,
         Sender $sender
     )
     {
         $this->tokenizer = $tokenizer;
-        $this->repository = $repository;
+        $this->tokenRepository = $tokenRepository;
         $this->sender = $sender;
     }
 
@@ -27,8 +27,8 @@ class EmailSender
     {
         Assert::email($email, "Необходимо предоставить корректный email");
 
-        if ($token = $this->repository->findByEmail($email)) {
-            $this->repository->delete($token->id);
+        if ($token = $this->tokenRepository->findByEmail($email)) {
+            $this->tokenRepository->delete($token->id);
         }
 
         $date = new DateTimeImmutable();
