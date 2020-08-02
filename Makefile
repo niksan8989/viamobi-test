@@ -10,7 +10,7 @@ docker-down:
 docker-clear:
 	docker-compose down -v --remove-orphans
 
-install:
+install: perm
 	docker-compose exec php-cli composer install
 	docker-compose exec php-cli php artisan migrate
 
