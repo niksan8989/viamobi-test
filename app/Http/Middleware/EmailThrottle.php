@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Cache\RateLimiter;
+use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use RuntimeException;
 

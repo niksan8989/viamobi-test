@@ -11,7 +11,7 @@ class DbToken extends Base implements Token
         return EmailToken::class;
     }
 
-    public function findByEmail(string $email): EmailToken
+    public function findByEmail(string $email): ?EmailToken
     {
         return $this->model->where('email', $email)->first();
     }

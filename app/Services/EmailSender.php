@@ -8,17 +8,8 @@ use Webmozart\Assert\Assert;
 
 class EmailSender
 {
-    /**
-     * @var Tokenizer
-     */
-    private $tokenizer;
-    /**
-     * @var Token
-     */
-    private $repository;
-    /**
-     * @var Sender
-     */
+    private Tokenizer $tokenizer;
+    private Token $repository;
     private Sender $sender;
 
     public function __construct(
@@ -32,9 +23,9 @@ class EmailSender
         $this->sender = $sender;
     }
 
-    public function send($email)
+    public function send($email): void
     {
-        Assert::email($email);
+        Assert::email($email, "Необходимо предоставить корректный email");
 
         if ($token = $this->repository->findByEmail($email)) {
             $this->repository->delete($token->id);

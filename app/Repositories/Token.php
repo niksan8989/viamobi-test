@@ -10,5 +10,5 @@ interface Token
     public function findById($id): ?Model;
     public function delete(int $id): void;
     public function getModelClass(): string;
-    public function findByEmail(string $email): EmailToken;
+    public function findByEmail(string $email): ?EmailToken;
 }
