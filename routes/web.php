@@ -11,6 +11,11 @@
 |
 */
 
-$router->group(['middleware' => ['throttle:1,5', 'throttle:5,60']], function() use ($router) {
+$router->group(['middleware' =>
+    [
+        //'throttle:1,1',
+        //'throttle:5,60'
+    ]
+], function() use ($router) {
     $router->get('sendCode', 'EmailController@sendCode');
 });

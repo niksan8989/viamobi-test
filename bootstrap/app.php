@@ -1,5 +1,11 @@
 <?php
 
+use App\Repositories\DbToken;
+use App\Repositories\Token;
+use App\Services\DummySender;
+use App\Services\Sender;
+use App\Services\Tokenizer;
+
 require_once __DIR__.'/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
@@ -48,6 +54,14 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+$app->singleton(Token::class, DbToken::class);
+$app->singleton(Sender::class, DummySender::class);
+
+$app->singleton(Tokenizer::class, function ($app) {
+        return new Tokenizer(new DateInterval(config('tokenizer.token_ttl')));
+    }
+);
+
 /*
 |--------------------------------------------------------------------------
 | Register Config Files
@@ -60,6 +74,7 @@ $app->singleton(
 */
 
 $app->configure('app');
+$app->configure('tokenizer');
 
 /*
 |--------------------------------------------------------------------------
