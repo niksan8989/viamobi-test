@@ -37,8 +37,10 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
+        "test": "vendor/bin/phpunit",
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ]
+        ],
+        "apidoc": "apidoc -i app/Http/Controllers -o public/apidoc/"
     }
 }

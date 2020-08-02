@@ -22,6 +22,34 @@ class EmailController extends Controller
         $this->codeChecker = $codeChecker;
     }
 
+    /**
+     * @api {get} /sendCode Генерация и отправка секретного кода на указанный email
+     * @apiName SendCode
+     * @apiVersion 0.1.0
+     * @apiGroup Email
+     *
+     * @apiParam {String} email Email для отпрвки сгенерированного кода.
+     *
+     * @apiExample {curl} Example usage:
+     *     curl -i http://localhost:8080/sendCode?email=test@example.com
+     *
+     * @apiSuccess {String} status Полученный статус.
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "status": "success"
+     *     }
+     *
+     * @apiError BadRequest Error message.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 400 Bad Request
+     *     {
+     *       "email": "error",
+     *       "message": "Error message"
+     *     }
+     */
     public function sendCode(Request $request)
     {
         $this->validate($request, [
@@ -43,6 +71,35 @@ class EmailController extends Controller
         }
     }
 
+    /**
+     * @api {get} /checkCode Сверка указанного кода с тем, что был ранее отправлен на указанный email.
+     * @apiName CheckCode
+     * @apiVersion 0.1.0
+     * @apiGroup Email
+     *
+     * @apiParam {String} email Email, который необходимо провалидировать.
+     * @apiParam {String} code Код для проверки.
+     *
+     * @apiExample {curl} Example usage:
+     *     curl -i http://localhost:8080/checkCode?email=test@example.com&code=1793
+     *
+     * @apiSuccess {String} status Полученный статус.
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "status": "success"
+     *     }
+     *
+     * @apiError BadRequest Error message.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 400 Bad Request
+     *     {
+     *       "email": "error",
+     *       "message": "Error message"
+     *     }
+     */
     public function checkCode(Request $request)
     {
         $this->validate($request, [
